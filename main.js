@@ -1,4 +1,4 @@
-const questions = [
+const from_data = [
   "demonssoul",
   "darksoul",
   "bloodborne",
@@ -6,40 +6,86 @@ const questions = [
   "eldenring"
 ]
 
+const questions = [];
+
 const question = document.querySelector('.question');
 const counter = document.querySelector('.counter');
-const button = document.querySelector('.button');
+const space = document.querySelector('.space');
 
-button.addEventListener('click', () => {
-  
-});
-
-function countdown(){
-  const totalTime = 3000; // 10秒
-  const oldTime = Date.now();
-
-  const timerId = setInterval(() => {
-  const currentTime = Date.now();
-  // 差分を求める
-  const diff = currentTime - oldTime;
-
-  // 残りミリ秒を計算する
-  const remainMSec = totalTime - diff;
-  // ミリ秒を整数の秒数に変換する
-  const remainSec = Math.ceil(remainMSec / 1000);
-
-  let label = `${remainSec}`;
-
-  // 0秒以下になったら
-  if (remainMSec <= 0) {
-    // タイマーを終了する
-    clearInterval(timerId);
-
-    // タイマー終了の文言を表示
-    label = 'スタート';
+let game_data = 0;
+let num = 0;
+let clear_count = 0;
+document.addEventListener("keydown", keyDown);
+function keyDown(e){
+  if( game_data === 0 ){
+    if( space.textContent === "[START]PRESS SPACE" ){
+      if( e.key === " " ){
+        for( let i = 0; i < from_data.length; i++ ){
+          questions[i] = from_data[i];
+        }
+        num = questions.length;
+        countdown();
+      }
+    }
   }
+  else if( game_data === 1 ){
+    if( e.key === question.textContent.slice(0,1) ){
+      space.textContent = "good";
+      question.textContent = question.textContent.slice(1);
+      if( question.textContent === "" ){
+        question.textContent = questions[Math.floor(Math.random() * questions.length)];
+        counter.textContent = questions.length + "/" + num;
+        questions.splice(questions.indexOf(question.textContent),1);
+        space.textContent = "";
+        if( counter.textContent === "0/5" ){
+          counter.textContent = "Congratulation!!";
+          space.textContent = "[RESET]PRESS ENTER";
+          game_data = 2;
+        }
+      }
+    }
+    else{
+      space.textContent = "bad";
+    } 
+  }
+  else if( game_data === 2 ){
+    if( e.key === "Enter" ){
+      game_data = 0;
+      clear_count += 1;
+      counter.textContent = "CLEAR COUNTER:" + clear_count;
+      space.textContent = "[START]PRESS SPACE"
+      return;
+    }
+  }
+}
 
-  // 画面に表示する
-  document.querySelector('#log').innerHTML = label;
-}, 1000);
+/* カウントダウン開始 */
+function countdown(){
+  const totalTime = 4000;
+  const oldTime = Date.now();
+  const timerId = setInterval(() => {
+    const currentTime = Date.now();
+
+    const diff = currentTime - oldTime;
+
+    const remainMSec = totalTime - diff;
+    const remainSec = Math.ceil(remainMSec / 1000);
+
+    let label = `${remainSec}`;
+
+    if (remainMSec <= 0) {
+      clearInterval(timerId);
+      label = ""
+      gameStart(questions);
+    }
+    space.textContent = label;
+  }, 1000);
+}
+
+/* カウントダウン終了後 */
+function gameStart(data){
+  question.textContent = questions[Math.floor(Math.random() * 5)];  
+  counter.textContent = questions.length + "/" + num;
+  questions.splice(questions.indexOf(question.textContent),1);
+  game_data = 1;
 }

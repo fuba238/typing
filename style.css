@@ -13,3 +13,9 @@ div.start{
   font-size: 28px;
   text-align: center;
 }
+
+button.button{
+  width: 300px;
+  padding: 10px;
+  font-size: 20px;
+}

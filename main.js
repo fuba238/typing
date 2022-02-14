@@ -15,6 +15,8 @@ const space = document.querySelector('.space');
 let game_data = 0;
 let num = 0;
 let clear_count = 0;
+let start_time;
+let finish_time;
 document.addEventListener("keydown", keyDown);
 function keyDown(e){
   if( game_data === 0 ){
@@ -23,6 +25,7 @@ function keyDown(e){
         for( let i = 0; i < from_data.length; i++ ){
           questions[i] = from_data[i];
         }
+        space.textContent = "";
         num = questions.length;
         countdown();
       }
@@ -41,6 +44,7 @@ function keyDown(e){
           counter.textContent = "Congratulation!!";
           space.textContent = "[RESET]PRESS ENTER";
           game_data = 2;
+          finish_time = Date.now();
         }
       }
     }
@@ -53,6 +57,7 @@ function keyDown(e){
       game_data = 0;
       clear_count += 1;
       counter.textContent = "CLEAR COUNTER:" + clear_count;
+      question.textContent = "CLEAR TIME:" + String((finish_time - start_time)/1000);
       space.textContent = "[START]PRESS SPACE"
       return;
     }
@@ -84,6 +89,7 @@ function countdown(){
 
 /* カウントダウン終了後 */
 function gameStart(data){
+  start_time = Date.now();
   question.textContent = questions[Math.floor(Math.random() * 5)];  
   counter.textContent = questions.length + "/" + num;
   questions.splice(questions.indexOf(question.textContent),1);

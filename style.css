@@ -1,0 +1,15 @@
+h1{
+  background-color: rgb(175, 245, 250);
+  text-align: center;
+}
+
+div.main{
+  background-color: rgb(208, 255, 207);
+  font-size: 30px;
+  text-align: center;
+}
+
+div.start{
+  font-size: 28px;
+  text-align: center;
+}

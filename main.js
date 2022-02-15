@@ -6,11 +6,55 @@ const from_data = [
   "eldenring"
 ]
 
+const nintendo_data = [
+  "supermario",
+  "pokemon",
+  "metroid",
+  "ringfitadventure",
+  "kirby"
+]
+
+const blizzard_data = [
+  "overwatch",
+  "hearthstone",
+  "diablo",
+  "worldofwarcraft",
+  "starcraft"
+]
+
+const data = [];
+
 const questions = [];
 
 const question = document.querySelector('.question');
 const counter = document.querySelector('.counter');
 const space = document.querySelector('.space');
+
+document.querySelectorAll('.game_data').forEach((data) => {
+  data.addEventListener('click', () => {
+    if( data.textContent === "FROM SOFTWARE" ) {
+      data = from_data;
+      alert('FROM SOFTWAREに変更しました');
+    }
+    else if( data.textContent === "NINTENDO" ) {
+      data = nintendo_data;
+      alert('NINTENDOに変更しました');
+    }
+    else if( data.textContent === "BLIZZARD" ){
+      data = blizzard_data;
+      alert('BLIZZARDに変更しました');
+    }
+    data_set(data);
+  })
+})
+
+
+
+function data_set(arr) {
+  for( let i = 0; i < arr.length; i++ ) {
+    questions[i] = arr[i];
+  }
+}
 
 let game_data = 0;
 let num = 0;
@@ -22,9 +66,6 @@ function keyDown(e){
   if( game_data === 0 ){
     if( space.textContent === "[START]PRESS SPACE" ){
       if( e.key === " " ){
-        for( let i = 0; i < from_data.length; i++ ){
-          questions[i] = from_data[i];
-        }
         space.textContent = "";
         num = questions.length;
         countdown();
